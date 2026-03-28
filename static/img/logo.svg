@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 64">
+  <polygon points="32,6 54,18 54,46 32,58 10,46 10,18" fill="rgba(255,255,255,0.95)"/>
+  <polygon points="32,6 54,18 43,22 32,14 21,22 10,18" fill="rgba(255,255,255,0.55)"/>
+  <text x="32" y="43" text-anchor="middle" fill="#c47d0e" font-family="Georgia,serif" font-size="26" font-weight="bold">A</text>
+  <text x="70" y="31" fill="#fff" font-family="system-ui,-apple-system,sans-serif" font-size="19" font-weight="700" letter-spacing="1">AMBER</text>
+  <text x="70" y="50" fill="rgba(255,255,255,0.85)" font-family="system-ui,-apple-system,sans-serif" font-size="10.5" letter-spacing="3.5">CONSULTING</text>
+</svg>
