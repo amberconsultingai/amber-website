@@ -1,7 +1,5 @@
 import os
-import smtplib
-from email.mime.text import MIMEText
-from email.mime.multipart import MIMEMultipart
+import resend
 
 from flask import Flask, render_template, request, jsonify
 from dotenv import load_dotenv
@@ -9,6 +7,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 app = Flask(__name__)
+resend.api_key = os.environ["RESEND_API_KEY"]
 
 
 @app.route("/")
@@ -28,31 +27,20 @@ def contact():
     try:
         send_email(name, email, message)
         return jsonify({"success": True})
-    except KeyError as e:
-        app.logger.error("Missing environment variable: %s", e)
-        return jsonify({"success": False, "error": "Server misconfiguration. Please contact us directly."}), 500
     except Exception as e:
         app.logger.error("Email send failed: %s", e)
         return jsonify({"success": False, "error": "Failed to send message. Please try again later."}), 500
 
 
 def send_email(name, sender_email, message):
-    username = os.environ["MAIL_USERNAME"]
-    password = os.environ["MAIL_PASSWORD"]
     recipient = os.environ["MAIL_RECIPIENT"]
 
-    msg = MIMEMultipart()
-    msg["From"] = username
-    msg["To"] = recipient
-    msg["Subject"] = f"New contact form message from {name}"
-
-    body = f"Name: {name}\nEmail: {sender_email}\n\nMessage:\n{message}"
-    msg.attach(MIMEText(body, "plain"))
-
-    with smtplib.SMTP("smtp.gmail.com", 587) as server:
-        server.starttls()
-        server.login(username, password)
-        server.sendmail(username, recipient, msg.as_string())
+    resend.Emails.send({
+        "from": "Amber Consulting <onboarding@resend.dev>",
+        "to": recipient,
+        "subject": f"New contact form message from {name}",
+        "text": f"Name: {name}\nEmail: {sender_email}\n\nMessage:\n{message}",
+    })
 
 
 if __name__ == "__main__":
