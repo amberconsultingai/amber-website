@@ -28,6 +28,9 @@ def contact():
     try:
         send_email(name, email, message)
         return jsonify({"success": True})
+    except KeyError as e:
+        app.logger.error("Missing environment variable: %s", e)
+        return jsonify({"success": False, "error": "Server misconfiguration. Please contact us directly."}), 500
     except Exception as e:
         app.logger.error("Email send failed: %s", e)
         return jsonify({"success": False, "error": "Failed to send message. Please try again later."}), 500
@@ -46,7 +49,8 @@ def send_email(name, sender_email, message):
     body = f"Name: {name}\nEmail: {sender_email}\n\nMessage:\n{message}"
     msg.attach(MIMEText(body, "plain"))
 
-    with smtplib.SMTP_SSL("smtp.gmail.com", 465) as server:
+    with smtplib.SMTP("smtp.gmail.com", 587) as server:
+        server.starttls()
         server.login(username, password)
         server.sendmail(username, recipient, msg.as_string())
 
