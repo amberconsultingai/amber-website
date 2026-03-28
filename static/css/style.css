@@ -414,29 +414,130 @@ footer {
   font-size: 0.875rem;
 }
 
-/* ── Responsive ── */
-@media (max-width: 680px) {
-  .tab-btn {
-    padding: 0.45rem 0.75rem;
-    font-size: 0.82rem;
-  }
-
-  .logo {
-    height: 38px;
-  }
-
+/* ── Responsive: Tablet ── */
+@media (max-width: 760px) {
   .about-grid,
   .contact-layout {
     grid-template-columns: 1fr;
     gap: 2rem;
   }
 
-  .highlights {
-    gap: 2.5rem;
+  .services-grid {
+    grid-template-columns: 1fr 1fr;
   }
 
   .cta-banner {
     flex-direction: column;
     text-align: center;
+  }
+
+  .page-hero {
+    padding: 2.5rem 0;
+  }
+
+  .page-hero h2 {
+    font-size: 2rem;
+  }
+}
+
+/* ── Responsive: Mobile ── */
+@media (max-width: 540px) {
+  /* Header stacks: logo on top, tabs full-width below */
+  header {
+    padding: 0.6rem 0 0;
+  }
+
+  .header-inner {
+    flex-direction: column;
+    align-items: center;
+    gap: 0.6rem;
+  }
+
+  .logo {
+    height: 38px;
+  }
+
+  .tab-nav {
+    width: 100%;
+    gap: 0;
+    border-top: 1px solid rgba(255,255,255,0.2);
+  }
+
+  .tab-btn {
+    flex: 1;
+    text-align: center;
+    padding: 0.6rem 0.25rem;
+    font-size: 0.75rem;
+    border-radius: 0;
+    min-height: 44px;
+  }
+
+  .tab-btn.active {
+    border-radius: 0;
+    border-top: 3px solid #fff;
+    background: rgba(255,255,255,0.15);
+    color: #fff;
+  }
+
+  /* Hero */
+  .hero-content {
+    padding: 3rem 0;
+  }
+
+  .hero-content p {
+    font-size: 1rem;
+  }
+
+  /* Highlights */
+  .highlights {
+    gap: 1.5rem;
+  }
+
+  .highlight-number {
+    font-size: 1.9rem;
+  }
+
+  .highlight-strip {
+    padding: 2rem 0;
+  }
+
+  /* Sections */
+  .section {
+    padding: 2.5rem 0 3rem;
+  }
+
+  .page-hero {
+    padding: 2rem 0;
+  }
+
+  .page-hero h2 {
+    font-size: 1.75rem;
+  }
+
+  /* Services */
+  .services-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .service-card {
+    padding: 1.5rem 1.25rem;
+  }
+
+  /* Prevent iOS auto-zoom on inputs (requires font-size >= 16px) */
+  input, textarea {
+    font-size: 16px;
+  }
+
+  /* Larger touch targets for buttons */
+  .btn-primary,
+  button[type="submit"] {
+    width: 100%;
+    text-align: center;
+    padding: 0.9rem 1.5rem;
+    min-height: 48px;
+  }
+
+  .cta-banner {
+    padding: 1.5rem;
   }
 }
