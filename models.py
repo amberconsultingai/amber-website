@@ -11,6 +11,9 @@ class User(db.Model, UserMixin):
     name = db.Column(db.String(100), nullable=False)
     password_hash = db.Column(db.String(256), nullable=False)
     role = db.Column(db.String(10), default='client')  # 'client' or 'admin'
+    notes = db.Column(db.Text, nullable=True)
+    reset_token = db.Column(db.String(100), nullable=True)
+    reset_token_expires = db.Column(db.DateTime, nullable=True)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
     files = db.relationship('File', backref='owner', lazy=True, cascade='all, delete-orphan')
@@ -33,6 +36,7 @@ class Message(db.Model):
     sender_role = db.Column(db.String(10), nullable=False)  # 'client' or 'admin'
     sender_name = db.Column(db.String(100), nullable=False)
     content = db.Column(db.Text, nullable=False)
+    is_read = db.Column(db.Boolean, default=False, nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
 

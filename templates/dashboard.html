@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Dashboard — Amber Consulting</title>
+  <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='img/favicon.svg') }}" />
   <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
   <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}" />
 </head>
@@ -11,9 +12,7 @@
 
   <header class="dash-header">
     <div class="container dash-header-inner">
-      <a href="/">
-        <img src="{{ url_for('static', filename='img/logo.svg') }}" alt="Amber Consulting" class="logo" />
-      </a>
+      <a href="/"><img src="{{ url_for('static', filename='img/logo.svg') }}" alt="Amber Consulting" class="logo" /></a>
       <div class="dash-user-info">
         <span class="dash-welcome">{{ current_user.name }}</span>
         <a href="/logout" class="btn-outline-sm">Logout</a>
@@ -33,16 +32,11 @@
       <button class="dash-tab active" data-section="files">Files</button>
       <button class="dash-tab" data-section="messages">
         Messages
-        {% if messages|selectattr('sender_role', 'equalto', 'admin')|list|length > 0 %}
-          <span class="badge">{{ messages|selectattr('sender_role', 'equalto', 'admin')|list|length }}</span>
-        {% endif %}
+        {% if unread_count > 0 %}<span class="badge">{{ unread_count }}</span>{% endif %}
       </button>
       <button class="dash-tab" data-section="payments">
         Payments
-        {% set pending = payments|selectattr('status', 'equalto', 'pending')|list %}
-        {% if pending %}
-          <span class="badge">{{ pending|length }}</span>
-        {% endif %}
+        {% if pending_count > 0 %}<span class="badge">{{ pending_count }}</span>{% endif %}
       </button>
     </div>
 
@@ -52,6 +46,7 @@
         <h2>Your Files</h2>
         <label for="file-input" class="btn-primary btn-sm">Upload File</label>
       </div>
+      <p class="section-hint">Accepted: PDF, Word, Excel, PowerPoint, images, ZIP (max 10MB)</p>
 
       <form action="/upload" method="post" enctype="multipart/form-data" id="upload-form">
         <input type="file" id="file-input" name="file" style="display:none"
@@ -77,17 +72,13 @@
           {% endfor %}
         </div>
       {% else %}
-        <div class="empty-state">
-          <p>No files uploaded yet. Click <strong>Upload File</strong> to get started.</p>
-        </div>
+        <div class="empty-state"><p>No files yet. Click <strong>Upload File</strong> to get started.</p></div>
       {% endif %}
     </section>
 
     <!-- MESSAGES -->
     <section id="messages" class="dash-section">
-      <div class="dash-section-header">
-        <h2>Correspondence</h2>
-      </div>
+      <div class="dash-section-header"><h2>Correspondence</h2></div>
 
       <div class="message-thread" id="message-thread">
         {% if messages %}
@@ -101,9 +92,7 @@
             </div>
           {% endfor %}
         {% else %}
-          <div class="empty-state">
-            <p>No messages yet. Send a message to start a conversation with your consultant.</p>
-          </div>
+          <div class="empty-state"><p>No messages yet. Send a message to start a conversation with your consultant.</p></div>
         {% endif %}
       </div>
 
@@ -115,9 +104,7 @@
 
     <!-- PAYMENTS -->
     <section id="payments" class="dash-section">
-      <div class="dash-section-header">
-        <h2>Payments</h2>
-      </div>
+      <div class="dash-section-header"><h2>Payments</h2></div>
 
       {% if payments %}
         <div class="payment-list">
@@ -144,9 +131,7 @@
           {% endfor %}
         </div>
       {% else %}
-        <div class="empty-state">
-          <p>No invoices yet.</p>
-        </div>
+        <div class="empty-state"><p>No invoices yet.</p></div>
       {% endif %}
     </section>
 
@@ -183,6 +168,11 @@
     </div>
   </div>
 
+  <!-- Session timeout warning -->
+  <div id="timeout-warning" class="timeout-toast" style="display:none">
+    Session expiring soon. <a href="#" onclick="resetInactivityTimer(); this.parentElement.style.display='none'">Stay logged in</a>
+  </div>
+
   <script>
     // ── Tab switching ──
     const tabs = document.querySelectorAll('.dash-tab');
@@ -199,7 +189,6 @@
     const hash = window.location.hash.slice(1);
     if (hash && document.getElementById(hash)) switchSection(hash);
 
-    // Scroll messages to bottom
     const thread = document.getElementById('message-thread');
     if (thread) thread.scrollTop = thread.scrollHeight;
 
@@ -222,6 +211,27 @@
     function formatCard(input) {
       input.value = input.value.replace(/\D/g, '').replace(/(.{4})/g, '$1 ').trim();
     }
+
+    // ── Session inactivity timeout (25 min warning, 30 min logout) ──
+    const WARNING_MS = 25 * 60 * 1000;
+    const LOGOUT_MS  = 30 * 60 * 1000;
+    let warningTimer, logoutTimer;
+
+    function resetInactivityTimer() {
+      clearTimeout(warningTimer);
+      clearTimeout(logoutTimer);
+      warningTimer = setTimeout(() => {
+        document.getElementById('timeout-warning').style.display = 'block';
+      }, WARNING_MS);
+      logoutTimer = setTimeout(() => {
+        window.location.href = '/logout?timeout=1';
+      }, LOGOUT_MS);
+    }
+
+    ['mousedown', 'mousemove', 'keydown', 'scroll', 'touchstart'].forEach(e => {
+      document.addEventListener(e, resetInactivityTimer, true);
+    });
+    resetInactivityTimer();
   </script>
 
 </body>

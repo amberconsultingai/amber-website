@@ -433,6 +433,195 @@ footer {
   font-size: 0.875rem;
 }
 
+/* ── Team ── */
+.page-hero--team  { background: linear-gradient(135deg, #fff8ec, #fff3d6); }
+.page-hero--blog  { background: linear-gradient(135deg, #fff3d6, #fff8ec); }
+.page-hero--faq   { background: linear-gradient(135deg, #fff8ec, #fff); }
+
+.team-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 2rem;
+}
+
+.team-card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 2rem 1.5rem;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.07);
+  text-align: center;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.team-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 28px rgba(245,166,35,0.18);
+}
+
+.team-avatar {
+  width: 72px;
+  height: 72px;
+  background: linear-gradient(135deg, #f5a623, #e08810);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: #fff;
+  margin: 0 auto 1rem;
+  letter-spacing: 1px;
+}
+
+.team-card h3 {
+  font-size: 1.1rem;
+  color: var(--text);
+  margin-bottom: 0.25rem;
+}
+
+.team-title {
+  font-size: 0.85rem;
+  color: var(--amber-dark);
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+}
+
+.team-bio {
+  font-size: 0.875rem;
+  color: var(--muted);
+  line-height: 1.65;
+}
+
+/* ── Blog ── */
+.blog-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.75rem;
+}
+
+.blog-card {
+  background: #fff;
+  border-radius: 10px;
+  padding: 1.75rem;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.07);
+  border-bottom: 3px solid transparent;
+  transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+  display: flex;
+  flex-direction: column;
+}
+
+.blog-card:hover {
+  border-bottom-color: var(--amber);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 24px rgba(245,166,35,0.15);
+}
+
+.blog-meta {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+  margin-bottom: 0.75rem;
+}
+
+.blog-category {
+  background: var(--amber-pale);
+  color: var(--amber-dark);
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding: 0.2rem 0.6rem;
+  border-radius: 50px;
+}
+
+.blog-date {
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
+.blog-card h3 {
+  font-size: 1rem;
+  color: var(--text);
+  margin-bottom: 0.75rem;
+  line-height: 1.4;
+}
+
+.blog-card p {
+  font-size: 0.875rem;
+  color: var(--muted);
+  flex: 1;
+  margin-bottom: 1.25rem;
+}
+
+.blog-read-more {
+  color: var(--amber-dark);
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: color 0.18s;
+}
+
+.blog-read-more:hover { color: var(--amber); }
+
+/* ── FAQ ── */
+.faq-list {
+  max-width: 720px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.faq-item {
+  border: 1px solid #e8e8e8;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.faq-question {
+  width: 100%;
+  background: #fff;
+  border: none;
+  padding: 1.1rem 1.25rem;
+  text-align: left;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text);
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  font-family: inherit;
+  transition: background 0.15s;
+}
+
+.faq-question::after {
+  content: '+';
+  font-size: 1.3rem;
+  font-weight: 300;
+  color: var(--amber);
+  flex-shrink: 0;
+  transition: transform 0.2s;
+}
+
+.faq-item.open .faq-question { background: var(--amber-pale); }
+.faq-item.open .faq-question::after { transform: rotate(45deg); }
+
+.faq-answer {
+  display: none;
+  padding: 0 1.25rem 1.1rem;
+  background: var(--amber-pale);
+}
+
+.faq-answer p {
+  color: var(--muted);
+  font-size: 0.9rem;
+  line-height: 1.7;
+  max-width: none;
+}
+
+.faq-item.open .faq-answer { display: block; }
+
 /* ── Responsive: Tablet ── */
 @media (max-width: 760px) {
   .about-grid,
@@ -480,7 +669,11 @@ footer {
     width: 100%;
     gap: 0;
     border-top: 1px solid rgba(255,255,255,0.2);
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
   }
+  .tab-nav::-webkit-scrollbar { display: none; }
 
   .tab-btn {
     flex: 1;

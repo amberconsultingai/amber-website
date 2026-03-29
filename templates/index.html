@@ -3,7 +3,12 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Amber Consulting</title>
+  <title>Amber Consulting — Smart Solutions. Real Results.</title>
+  <meta name="description" content="Amber Consulting helps businesses grow through practical strategy, streamlined operations, and expert guidance tailored to your goals." />
+  <meta property="og:title" content="Amber Consulting" />
+  <meta property="og:description" content="Smart Solutions. Real Results. Strategic consulting tailored to your business." />
+  <meta property="og:type" content="website" />
+  <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='img/favicon.svg') }}" />
   <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
 </head>
 <body>
@@ -15,8 +20,11 @@
       </a>
       <nav class="tab-nav">
         <button class="tab-btn active" data-tab="home">Home</button>
-        <button class="tab-btn" data-tab="about">About Us</button>
-        <button class="tab-btn" data-tab="services">Our Services</button>
+        <button class="tab-btn" data-tab="about">About</button>
+        <button class="tab-btn" data-tab="services">Services</button>
+        <button class="tab-btn" data-tab="team">Team</button>
+        <button class="tab-btn" data-tab="blog">Blog</button>
+        <button class="tab-btn" data-tab="faq">FAQ</button>
         <button class="tab-btn" data-tab="contact">Contact</button>
       </nav>
       <a href="/login" class="client-login-btn">Client Login</a>
@@ -140,6 +148,129 @@
         <div class="cta-banner">
           <p>Ready to get started? Let's talk about what Amber Consulting can do for you.</p>
           <button class="btn-primary" data-tab="contact">Contact Us</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- TEAM -->
+    <div id="tab-team" class="tab-panel">
+      <div class="page-hero page-hero--team">
+        <div class="container">
+          <h2>Our Team</h2>
+          <p>Experienced professionals dedicated to your success</p>
+        </div>
+      </div>
+      <div class="container section">
+        <div class="team-grid">
+          <div class="team-card">
+            <div class="team-avatar">JM</div>
+            <h3>Jane Mitchell</h3>
+            <p class="team-title">Managing Director</p>
+            <p class="team-bio">With over 15 years in strategic consulting, Jane has guided hundreds of businesses through growth, transformation, and change. She specializes in long-term strategic planning and organizational leadership.</p>
+          </div>
+          <div class="team-card">
+            <div class="team-avatar">DC</div>
+            <h3>David Chen</h3>
+            <p class="team-title">Senior Consultant</p>
+            <p class="team-bio">David brings a decade of experience in business development and market expansion. His data-driven approach helps clients identify and capitalize on new opportunities with confidence.</p>
+          </div>
+          <div class="team-card">
+            <div class="team-avatar">SP</div>
+            <h3>Sarah Park</h3>
+            <p class="team-title">Operations Consultant</p>
+            <p class="team-bio">Sarah is an expert in operational efficiency and digital transformation. She works closely with clients to streamline processes and implement technology solutions that deliver measurable results.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- BLOG -->
+    <div id="tab-blog" class="tab-panel">
+      <div class="page-hero page-hero--blog">
+        <div class="container">
+          <h2>Resources &amp; Insights</h2>
+          <p>Practical advice to help your business grow</p>
+        </div>
+      </div>
+      <div class="container section">
+        <div class="blog-grid">
+          <article class="blog-card">
+            <div class="blog-meta">
+              <span class="blog-category">Strategy</span>
+              <span class="blog-date">March 2026</span>
+            </div>
+            <h3>5 Strategies for Business Growth in 2026</h3>
+            <p>In today's competitive landscape, sustainable growth requires more than ambition — it demands a deliberate, well-executed strategy. Here are five approaches that consistently deliver results for our clients.</p>
+            <a href="#" class="blog-read-more">Read More →</a>
+          </article>
+          <article class="blog-card">
+            <div class="blog-meta">
+              <span class="blog-category">Operations</span>
+              <span class="blog-date">February 2026</span>
+            </div>
+            <h3>How to Streamline Your Business Operations</h3>
+            <p>Operational inefficiencies quietly drain resources and slow growth. This guide walks through the key areas where most businesses can reduce friction, cut costs, and free up time for what matters most.</p>
+            <a href="#" class="blog-read-more">Read More →</a>
+          </article>
+          <article class="blog-card">
+            <div class="blog-meta">
+              <span class="blog-category">Digital</span>
+              <span class="blog-date">January 2026</span>
+            </div>
+            <h3>Building a Digital Transformation Strategy</h3>
+            <p>Digital transformation is more than adopting new tools — it's a fundamental shift in how your business operates and delivers value. Learn how to build a roadmap that works for your organization's size and goals.</p>
+            <a href="#" class="blog-read-more">Read More →</a>
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <!-- FAQ -->
+    <div id="tab-faq" class="tab-panel">
+      <div class="page-hero page-hero--faq">
+        <div class="container">
+          <h2>Frequently Asked Questions</h2>
+          <p>Everything you need to know about working with us</p>
+        </div>
+      </div>
+      <div class="container section">
+        <div class="faq-list">
+          <div class="faq-item">
+            <button class="faq-question">What types of businesses do you work with?</button>
+            <div class="faq-answer">
+              <p>We work with businesses of all sizes — from startups finding their footing to established companies navigating growth or change. Our clients span a range of industries including professional services, retail, technology, healthcare, and more. If you have a business challenge, we'd love to talk.</p>
+            </div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-question">How long does a typical engagement last?</button>
+            <div class="faq-answer">
+              <p>Engagements vary depending on the scope of work. A focused project such as a strategic plan or operational review typically runs 4–8 weeks. Ongoing advisory relationships can last months or years. We'll discuss timeline and scope upfront so you know exactly what to expect.</p>
+            </div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-question">How do we get started?</button>
+            <div class="faq-answer">
+              <p>Start by reaching out through our Contact page. We'll schedule a free 30-minute discovery call to learn about your business and goals. From there, we'll propose an engagement that fits your needs and budget — no obligation required.</p>
+            </div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-question">What does the consulting process look like?</button>
+            <div class="faq-answer">
+              <p>Every engagement follows a clear process: discovery (understanding your business), analysis (identifying opportunities and challenges), recommendations (a practical action plan), and implementation support. We stay involved throughout to ensure recommendations translate into real results.</p>
+            </div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-question">How are fees structured?</button>
+            <div class="faq-answer">
+              <p>We offer both project-based and retainer pricing depending on the nature of the work. All fees are discussed and agreed upon upfront — no surprises. We're committed to delivering value that far exceeds the investment.</p>
+            </div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-question">Do you offer ongoing support after a project ends?</button>
+            <div class="faq-answer">
+              <p>Yes. Many of our clients transition to ongoing advisory arrangements after an initial project. We also offer check-in sessions and ad hoc support for past clients who need a sounding board as their business evolves.</p>
+            </div>
+          </div>
         </div>
       </div>
     </div>
