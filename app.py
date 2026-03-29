@@ -50,6 +50,12 @@ cloudinary.config(
 
 ADMIN_EMAIL = os.environ.get('ADMIN_EMAIL', '').lower()
 
+@app.template_filter('download_url')
+def download_url(cloudinary_url):
+    """Insert fl_attachment into Cloudinary URL to force file download."""
+    return cloudinary_url.replace('/upload/', '/upload/fl_attachment/', 1)
+
+
 with app.app_context():
     db.create_all()
 
