@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(amber/Scripts/python.exe -c \"from flask_limiter import Limiter; print\\([a for a in dir\\(Limiter\\) if not a.startswith\\(''__''\\)]\\)\")",
+      "WebFetch(domain:raw.githubusercontent.com)"
+    ]
+  }
+}
