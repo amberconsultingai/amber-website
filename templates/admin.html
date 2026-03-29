@@ -97,7 +97,7 @@
                     <span class="file-name">{{ f.filename }}</span>
                     <span class="file-date">{{ f.uploaded_at.strftime('%b %d, %Y') }}</span>
                   </div>
-                  <a href="{{ f.cloudinary_url | download_url }}" class="btn-secondary-sm">Download</a>
+                  <a href="/download/{{ f.id }}" class="btn-secondary-sm">Download</a>
                 </div>
               {% endfor %}
             </div>

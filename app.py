@@ -335,6 +335,32 @@ def upload_file():
     return redirect(url_for('dashboard') + '#files')
 
 
+@app.route('/download/<int:file_id>')
+@login_required
+def download_file(file_id):
+    if current_user.role == 'admin':
+        f = db.session.get(File, file_id) or abort(404)
+    else:
+        f = File.query.filter_by(id=file_id, user_id=current_user.id).first_or_404()
+
+    try:
+        import urllib.request
+        with urllib.request.urlopen(f.cloudinary_url) as resp:
+            data = resp.read()
+        from flask import Response
+        return Response(
+            data,
+            headers={
+                'Content-Disposition': f'attachment; filename="{f.filename}"',
+                'Content-Type': 'application/octet-stream',
+            }
+        )
+    except Exception as e:
+        app.logger.error('Download failed: %s', e)
+        flash('Download failed. Please try again.', 'error')
+        return redirect(url_for('dashboard'))
+
+
 @app.route('/files/<int:file_id>/delete', methods=['POST'])
 @login_required
 def delete_file(file_id):
