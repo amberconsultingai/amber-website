@@ -250,6 +250,23 @@
   border-radius: 50px;
 }
 
+.btn-secondary-sm {
+  color: var(--amber-dark);
+  border: 1.5px solid var(--amber);
+  padding: 0.35rem 0.9rem;
+  border-radius: 50px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  text-decoration: none;
+  cursor: pointer;
+  background: none;
+  font-family: inherit;
+  transition: background 0.18s;
+  display: inline-block;
+}
+
+.btn-secondary-sm:hover { background: var(--amber-pale); }
+
 .btn-danger-sm {
   background: none;
   border: 1.5px solid #e0e0e0;
@@ -533,6 +550,37 @@
 .client-email {
   font-size: 0.775rem;
   color: var(--muted);
+}
+
+.client-item {
+  position: relative;
+}
+
+.client-item:hover .delete-client-btn { opacity: 1; }
+
+.delete-client-form {
+  position: absolute;
+  right: 0.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.delete-client-btn {
+  background: none;
+  border: none;
+  color: #bbb;
+  font-size: 1.1rem;
+  cursor: pointer;
+  padding: 0.2rem 0.4rem;
+  border-radius: 4px;
+  opacity: 0;
+  transition: opacity 0.15s, color 0.15s, background 0.15s;
+  line-height: 1;
+}
+
+.delete-client-btn:hover {
+  color: #b00020;
+  background: #fef2f2;
 }
 
 .sidebar-empty {

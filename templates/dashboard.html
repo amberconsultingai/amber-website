@@ -67,7 +67,7 @@
                 <span class="file-date">{{ f.uploaded_at.strftime('%b %d, %Y') }}</span>
               </div>
               <div class="file-actions">
-                <a href="{{ f.cloudinary_url }}" target="_blank" class="btn-outline-sm">Download</a>
+                <a href="{{ f.cloudinary_url }}" target="_blank" class="btn-secondary-sm">Download</a>
                 <form action="/files/{{ f.id }}/delete" method="post" style="display:inline"
                       onsubmit="return confirm('Delete this file?')">
                   <button type="submit" class="btn-danger-sm">Delete</button>

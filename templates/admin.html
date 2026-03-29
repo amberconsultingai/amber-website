@@ -35,6 +35,10 @@
                 <span class="client-name">{{ client.name }}</span>
                 <span class="client-email">{{ client.email }}</span>
               </a>
+              <form action="/admin/delete/{{ client.id }}" method="post" class="delete-client-form"
+                    onsubmit="return confirm('Delete {{ client.name }}? This cannot be undone.')">
+                <button type="submit" class="delete-client-btn" title="Delete client">&times;</button>
+              </form>
             </li>
           {% endfor %}
         </ul>
@@ -78,7 +82,7 @@
                     <span class="file-name">{{ f.filename }}</span>
                     <span class="file-date">{{ f.uploaded_at.strftime('%b %d, %Y') }}</span>
                   </div>
-                  <a href="{{ f.cloudinary_url }}" target="_blank" class="btn-outline-sm">Download</a>
+                  <a href="{{ f.cloudinary_url }}" target="_blank" class="btn-secondary-sm">Download</a>
                 </div>
               {% endfor %}
             </div>

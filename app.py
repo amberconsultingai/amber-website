@@ -307,6 +307,23 @@ def admin_send_message(client_id):
     return redirect(url_for('admin', client_id=client_id) + '#messages')
 
 
+@app.route('/admin/delete/<int:client_id>', methods=['POST'])
+@login_required
+@admin_required
+def delete_client(client_id):
+    client = User.query.filter_by(id=client_id, role='client').first_or_404()
+    # Delete their Cloudinary files first
+    for f in client.files:
+        try:
+            cloudinary.uploader.destroy(f.cloudinary_public_id, resource_type='raw')
+        except Exception as e:
+            app.logger.warning('Cloudinary delete failed: %s', e)
+    db.session.delete(client)
+    db.session.commit()
+    flash(f'{client.name} has been deleted.', 'success')
+    return redirect(url_for('admin'))
+
+
 @app.route('/admin/invoice/<int:client_id>', methods=['POST'])
 @login_required
 @admin_required
@@ -323,6 +340,13 @@ def create_invoice(client_id):
     db.session.commit()
     flash('Invoice created.', 'success')
     return redirect(url_for('admin', client_id=client_id) + '#payments')
+
+
+@app.cli.command('reset-db')
+def reset_db():
+    db.drop_all()
+    db.create_all()
+    print('Database reset.')
 
 
 if __name__ == '__main__':
