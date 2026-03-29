@@ -57,6 +57,25 @@ header {
   width: auto;
 }
 
+/* ── Client Login Button ── */
+.client-login-btn {
+  color: #fff;
+  border: 1.5px solid rgba(255,255,255,0.7);
+  padding: 0.4rem 1.1rem;
+  border-radius: 50px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background 0.18s, border-color 0.18s;
+  flex-shrink: 0;
+}
+
+.client-login-btn:hover {
+  background: rgba(255,255,255,0.2);
+  border-color: #fff;
+}
+
 /* ── Tab Nav ── */
 .tab-nav {
   display: flex;

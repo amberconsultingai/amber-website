@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin — Amber Consulting</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}" />
+</head>
+<body class="dash-body">
+
+  <header class="dash-header">
+    <div class="container dash-header-inner">
+      <a href="/">
+        <img src="{{ url_for('static', filename='img/logo.svg') }}" alt="Amber Consulting" class="logo" />
+      </a>
+      <div class="dash-user-info">
+        <span class="admin-badge">Admin</span>
+        <span class="dash-welcome">{{ current_user.name }}</span>
+        <a href="/logout" class="btn-outline-sm">Logout</a>
+      </div>
+    </div>
+  </header>
+
+  <div class="admin-layout">
+
+    <!-- Client sidebar -->
+    <aside class="admin-sidebar">
+      <h3>Clients</h3>
+      {% if clients %}
+        <ul class="client-list">
+          {% for client in clients %}
+            <li class="client-item {% if selected_client and selected_client.id == client.id %}active{% endif %}">
+              <a href="/admin?client_id={{ client.id }}">
+                <span class="client-name">{{ client.name }}</span>
+                <span class="client-email">{{ client.email }}</span>
+              </a>
+            </li>
+          {% endfor %}
+        </ul>
+      {% else %}
+        <p class="sidebar-empty">No clients yet.</p>
+      {% endif %}
+    </aside>
+
+    <!-- Client detail -->
+    <main class="admin-main container">
+
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% for category, message in messages %}
+          <div class="flash flash--{{ category }}">{{ message }}</div>
+        {% endfor %}
+      {% endwith %}
+
+      {% if selected_client %}
+        <div class="admin-client-header">
+          <h2>{{ selected_client.name }}</h2>
+          <span class="client-email-label">{{ selected_client.email }}</span>
+          <span class="client-since">Client since {{ selected_client.created_at.strftime('%b %Y') }}</span>
+        </div>
+
+        <div class="dash-tabs">
+          <button class="dash-tab active" data-section="files">Files</button>
+          <button class="dash-tab" data-section="messages">Messages</button>
+          <button class="dash-tab" data-section="payments">Payments</button>
+        </div>
+
+        <!-- FILES -->
+        <section id="files" class="dash-section active">
+          <div class="dash-section-header">
+            <h3>Uploaded Files</h3>
+          </div>
+          {% if files %}
+            <div class="file-list">
+              {% for f in files %}
+                <div class="file-item">
+                  <div class="file-info">
+                    <span class="file-name">{{ f.filename }}</span>
+                    <span class="file-date">{{ f.uploaded_at.strftime('%b %d, %Y') }}</span>
+                  </div>
+                  <a href="{{ f.cloudinary_url }}" target="_blank" class="btn-outline-sm">Download</a>
+                </div>
+              {% endfor %}
+            </div>
+          {% else %}
+            <div class="empty-state"><p>No files uploaded by this client.</p></div>
+          {% endif %}
+        </section>
+
+        <!-- MESSAGES -->
+        <section id="messages" class="dash-section">
+          <div class="dash-section-header">
+            <h3>Correspondence</h3>
+          </div>
+
+          <div class="message-thread" id="message-thread">
+            {% if messages %}
+              {% for msg in messages %}
+                <div class="message-bubble message--{{ msg.sender_role }}">
+                  <div class="message-meta">
+                    <strong>{{ msg.sender_name }}</strong>
+                    <span>{{ msg.created_at.strftime('%b %d, %Y %I:%M %p') }}</span>
+                  </div>
+                  <p>{{ msg.content }}</p>
+                </div>
+              {% endfor %}
+            {% else %}
+              <div class="empty-state"><p>No messages yet.</p></div>
+            {% endif %}
+          </div>
+
+          <form action="/admin/message/{{ selected_client.id }}" method="post" class="message-form">
+            <textarea name="content" rows="3" placeholder="Send a message to {{ selected_client.name }}..." required></textarea>
+            <button type="submit" class="btn-primary btn-sm">Send</button>
+          </form>
+        </section>
+
+        <!-- PAYMENTS -->
+        <section id="payments" class="dash-section">
+          <div class="dash-section-header">
+            <h3>Invoices</h3>
+          </div>
+
+          <form action="/admin/invoice/{{ selected_client.id }}" method="post" class="invoice-form">
+            <h4>Create Invoice</h4>
+            <div class="form-row">
+              <div class="form-group">
+                <label>Amount ($)</label>
+                <input type="number" name="amount" placeholder="500.00" step="0.01" min="0.01" required />
+              </div>
+              <div class="form-group" style="flex:2">
+                <label>Description</label>
+                <input type="text" name="description" placeholder="Strategic Planning Session" />
+              </div>
+              <div class="form-group form-group--btn">
+                <button type="submit" class="btn-primary btn-sm">Create</button>
+              </div>
+            </div>
+          </form>
+
+          {% if payments %}
+            <div class="payment-list">
+              {% for p in payments %}
+                <div class="payment-item payment--{{ p.status }}">
+                  <div class="payment-info">
+                    <span class="payment-desc">{{ p.description or 'Consulting Services' }}</span>
+                    <span class="payment-date">{{ p.created_at.strftime('%b %d, %Y') }}</span>
+                  </div>
+                  <div class="payment-right">
+                    <span class="payment-amount">${{ '%.2f' % p.amount }}</span>
+                    {% if p.status == 'paid' %}
+                      <span class="status-badge status--paid">Paid {{ p.paid_at.strftime('%b %d') }}</span>
+                    {% else %}
+                      <span class="status-badge status--pending">Pending</span>
+                    {% endif %}
+                  </div>
+                </div>
+              {% endfor %}
+            </div>
+          {% else %}
+            <div class="empty-state"><p>No invoices yet.</p></div>
+          {% endif %}
+        </section>
+
+      {% else %}
+        <div class="admin-empty">
+          <h2>Welcome, {{ current_user.name }}</h2>
+          <p>Select a client from the sidebar to view their files, messages, and payments.</p>
+        </div>
+      {% endif %}
+
+    </main>
+  </div>
+
+  <script>
+    const tabs = document.querySelectorAll('.dash-tab');
+    const sections = document.querySelectorAll('.dash-section');
+
+    function switchSection(id) {
+      tabs.forEach(t => t.classList.toggle('active', t.dataset.section === id));
+      sections.forEach(s => s.classList.toggle('active', s.id === id));
+      history.replaceState(null, '', location.pathname + location.search + '#' + id);
+    }
+
+    tabs.forEach(t => t.addEventListener('click', () => switchSection(t.dataset.section)));
+
+    const hash = window.location.hash.slice(1);
+    if (hash && document.getElementById(hash)) switchSection(hash);
+
+    const thread = document.getElementById('message-thread');
+    if (thread) thread.scrollTop = thread.scrollHeight;
+  </script>
+
+</body>
+</html>
