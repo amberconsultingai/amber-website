@@ -44,7 +44,8 @@ login_manager.login_view = 'login'
 login_manager.login_message = 'Please log in to access this page.'
 login_manager.login_message_category = 'error'
 
-limiter = Limiter(get_remote_address, app=app, storage_uri='memory://', default_limits=[])
+limiter = Limiter(get_remote_address, app=app, storage_uri='memory://', default_limits=[],
+                  enabled=not os.environ.get('FLASK_TESTING'))
 
 resend.api_key = os.environ.get('RESEND_API_KEY', '')
 
@@ -61,8 +62,9 @@ ALLOWED_EXTENSIONS = {
     'txt', 'csv', 'png', 'jpg', 'jpeg', 'gif', 'zip'
 }
 
-with app.app_context():
-    db.create_all()
+if not os.environ.get('FLASK_TESTING'):
+    with app.app_context():
+        db.create_all()
 
 
 # ── Helpers ──
