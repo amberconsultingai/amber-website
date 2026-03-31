@@ -93,7 +93,7 @@ def notify_admin(subject, body):
         return
     try:
         resend.Emails.send({
-            'from': 'Amber Portal <onboarding@resend.dev>',
+            'from': 'AMBR Portal <onboarding@resend.dev>',
             'to': recipient,
             'subject': subject,
             'text': body,
@@ -107,7 +107,7 @@ def notify_client(client_email, subject, body):
         return
     try:
         resend.Emails.send({
-            'from': 'Amber Consulting <onboarding@resend.dev>',
+            'from': 'AMBR Consulting <onboarding@resend.dev>',
             'to': client_email,
             'subject': subject,
             'text': body,
@@ -140,7 +140,7 @@ def contact():
     try:
         recipient = os.environ['MAIL_RECIPIENT']
         resend.Emails.send({
-            'from': 'Amber Consulting <onboarding@resend.dev>',
+            'from': 'AMBR Consulting <onboarding@resend.dev>',
             'to': recipient,
             'subject': f'New contact form message from {name}',
             'text': f'Name: {name}\nEmail: {email}\n\nMessage:\n{message}',
@@ -239,7 +239,7 @@ def forgot_password():
             user.reset_token_expires = datetime.utcnow() + timedelta(hours=1)
             db.session.commit()
             reset_url = request.host_url.rstrip('/') + url_for('reset_password', token=token)
-            notify_client(user.email, 'Reset Your Password — Amber Consulting',
+            notify_client(user.email, 'Reset Your Password — AMBR Consulting',
                 f'Hi {user.name},\n\nClick the link below to reset your password (expires in 1 hour):\n\n{reset_url}\n\nIf you did not request this, ignore this email.')
         # Always show success to prevent email enumeration
         flash('If that email is registered, a reset link has been sent.', 'success')
@@ -482,7 +482,7 @@ def admin_send_message(client_id):
             content=content
         ))
         db.session.commit()
-        notify_client(client.email, 'New message from Amber Consulting',
+        notify_client(client.email, 'New message from AMBR Consulting',
             f'Hi {client.name},\n\nYou have a new message from your consultant:\n\n{content}\n\nLog in to reply: {request.host_url}login')
     return redirect(url_for('admin', client_id=client_id) + '#messages')
 
@@ -516,7 +516,7 @@ def admin_upload_file(client_id):
             cloudinary_public_id=result['public_id']
         ))
         db.session.commit()
-        notify_client(client.email, 'A file has been shared with you — Amber Consulting',
+        notify_client(client.email, 'A file has been shared with you — AMBR Consulting',
             f'Hi {client.name},\n\nYour consultant has shared a file with you: {f.filename}\n\nLog in to download it: {request.host_url}login')
         flash('File uploaded to client.', 'success')
     except Exception as e:
@@ -540,7 +540,7 @@ def create_invoice(client_id):
 
     db.session.add(Payment(user_id=client_id, amount=amount, description=description))
     db.session.commit()
-    notify_client(client.email, 'New invoice from Amber Consulting',
+    notify_client(client.email, 'New invoice from AMBR Consulting',
         f'Hi {client.name},\n\nAn invoice has been created for you:\n\n{description or "Consulting Services"}: ${amount:,.2f}\n\nLog in to pay: {request.host_url}login')
     flash('Invoice created.', 'success')
     return redirect(url_for('admin', client_id=client_id) + '#payments')

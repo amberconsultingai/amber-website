@@ -90,7 +90,7 @@ def test_login_admin_redirects_to_admin_panel(client, admin_user):
 def test_logout_redirects_to_index(logged_in_client):
     res = logged_in_client.get('/logout', follow_redirects=True)
     assert res.status_code == 200
-    assert b'Amber Consulting' in res.data
+    assert b'AMBR Consulting' in res.data
 
 
 def test_forgot_password_sends_email(client, client_user, mocker, app):
